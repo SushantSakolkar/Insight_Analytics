@@ -1,0 +1,115 @@
+import os.path
+import dateutil.parser
+import datetime
+import re
+import time
+import Queue
+import heapq
+from datetime import datetime, timedelta
+from collections import defaultdict
+from collections import OrderedDict
+import sys
+
+
+regEx = "(.*?) - - \[(.*?)\] \"(.*?)\" (.*?) (.*?)$"
+
+
+
+def feature_4():
+	start_time = time.time()
+	# var section
+	possibleBlockIpDict = defaultdict(list)
+	blockedIPDict = {}
+	requestDenied = 0
+
+	try:
+		logFile = open ('./log_input/log.txt')
+	except IOError:
+		print('!!! ..................  There was an error opening the file! .................... !!!')
+		return
+
+	# Save old reference of stdout
+	oldstdout = sys.stdout
+	# Open file for Sys out
+	sys.stdout = open('blocked.txt', 'w')
+
+	for line in iter(logFile):
+
+		logElements = re.match(regEx,line)
+
+		# processing each line
+		if logElements:
+	###################################################### Feature 4 #############################################################
+			# Check if Ip is not blocked
+			if blockedIPDict.has_key(logElements.group(1)) :
+				# blocking for 5 minutes ( 300 seconds )
+				if dateutil.parser.parse(logElements.group(2).replace(':', ' ', 1)) < blockedIPDict[logElements.group(1)] + timedelta (seconds = 301):
+					ipBlocked = 1
+					sys.stdout.write(line)
+				else :
+					ipBlocked = 0
+			else :
+				ipBlocked = 0
+			
+			# Process line only if IP is not blocked
+			if ipBlocked == 0 :
+				# if Request is denied for this record
+				if logElements.group(4) == "401" :
+					if logElements.group(3).split(' ')[0] == "POST" and logElements.group(3).split(' ')[1] == "/login" :
+						reqDenied = 1
+						currentTT = dateutil.parser.parse(logElements.group(2).replace(':', ' ', 1))	
+					else :
+						reqDenied = 0
+				else :
+					reqDenied = 0
+
+				# if for the same ip request was denied earlier
+				if possibleBlockIpDict.has_key(logElements.group(1)) :
+					if reqDenied == 1 :
+
+						# if another request denied within last 20 seconds ?					
+						if possibleBlockIpDict[logElements.group(1)][0] + timedelta(seconds =20) >= currentTT :
+							# if it was denied once or twice
+							if possibleBlockIpDict[logElements.group(1)][1] == "NA" :
+								possibleBlockIpDict[logElements.group(1)][1] = currentTT
+
+							# it was denied twice earlier so blocking ip !!!!!
+							else :
+								blockedIPDict[logElements.group(1)]=currentTT
+
+						# no denied request in last 20 seconds
+						else :
+
+							# it was denied once or twice before ?
+							if possibleBlockIpDict[logElements.group(1)][1] == "NA" :
+								# it was denied only once before so updating timestamp
+								possibleBlockIpDict[logElements.group(1)][0] = currentTT
+
+							# it was denied twice before so shifting 2nd deny to 1st deny timestamp
+							else :
+								if possibleBlockIpDict[logElements.group(1)][1] + timedelta(seconds =20) >= currentTT :
+									possibleBlockIpDict[logElements.group(1)][0] = possibleBlockIpDict[logElements.group(1)][1]
+									possibleBlockIpDict[logElements.group(1)][1] = currentTT
+								else :
+									possibleBlockIpDict[logElements.group(1)][0] = currentTT
+									possibleBlockIpDict[logElements.group(1)][1] == "NA"
+									
+					# current request is successful so removing entry if present from possible blocked ips
+					else :
+						del possibleBlockIpDict[logElements.group(1)]
+						
+			
+				# if ip not present in record and request is denied make entry in hashmap
+				else :
+					if reqDenied == 1 :
+						possibleBlockIpDict[logElements.group(1)].append(currentTT)
+						possibleBlockIpDict[logElements.group(1)].append("NA")
+					
+
+	logFile.close()
+	# Restore old reference of stdout	
+	sys.stdout = oldstdout
+	print "\n--- Feature 4 took %s seconds --------" % (time.time() - start_time)
+	print   "--- Output Stored in blocked.txt !!--- \n"
+
+	

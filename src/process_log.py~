@@ -49,7 +49,7 @@ def run_analytics() :
 		run_analytics()
 
 	elif choice == 4 :
-		print "Executing feature 4 : Approx wait time is 40 seconds for 4 Million records. !"
+		print "Executing feature 4 : Approx wait time is 42 seconds for 4 Million records. !"
 		feature_4()
 		run_analytics()
 

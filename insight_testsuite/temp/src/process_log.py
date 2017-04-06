@@ -34,27 +34,22 @@ def run_analytics() :
 	choice = input("\n \nEnter number 1 to 6 for above choices : ")
 
 	if choice == 1 :
-		print "Executing feature 1 : Approx wait time is 44 seconds for 4 Million records. !"
 		feature_1()
 		run_analytics()
 
 	elif choice == 2 :
-		print "Executing feature 2 : Approx wait time is 98 seconds for 4 Million records. !"
 		feature_2()
 		run_analytics()
 
 	elif choice == 3 :
-		print "Executing feature 3 : Approx wait time is 6 minutes for 4 Million records. !"
 		feature_3()
 		run_analytics()
 
 	elif choice == 4 :
-		print "Executing feature 4 : Approx wait time is 40 seconds for 4 Million records. !"
 		feature_4()
 		run_analytics()
 
 	elif choice == 5 :
-		print "Executing All at once : Approx wait time is 9 minutes for 4 Million records. !"
 		feature_1()
 		feature_2()
 		feature_3()
