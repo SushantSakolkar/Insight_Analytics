@@ -1,29 +1,29 @@
-Project description can be found at :
-https://github.com/InsightDataScience/fansite-analytics-challenge
+# Project description can be found at :  
+https://github.com/InsightDataScience/fansite-analytics-challenge  
 --------------------------------------------------------------------------//
 
-Steps to Execute :- 
-	Go to "fansite-analytics-challenge" directory
-	Execute command "./run.sh" :- "Caution :- This removes existing output files !!!"
-	Select option from 1 to 5 by entering the number
-	To exit press 6
+# Steps to Execute :-   
+	Go to "fansite-analytics-challenge" directory  
+	Execute command "./run.sh" :- "Caution :- This removes existing output files !!!"  
+	Select option from 1 to 5 by entering the number  
+	To exit press 6  
 --------------------------------------------------------------------------//
 
-One additional feature added :- 
-One can run all analytics sequenctially by selecting option 5.
---------------------------------------------------------------------------//
+# One additional feature added :-   
+One can run all analytics sequenctially by selecting option 5.  
+--------------------------------------------------------------------------//  
 
-Code Structure :- 
-
-Run.sh calls process_log.py
-	process_log.py calls one of :
-		Feature_1.py
-		Feature_2.py
-		Feature_3.py
-		Feature_4.py
-		or All
-Pressing 6 Terminates the process !
---------------------------------------------------------------------------//
+# Code Structure :-   
+  
+Run.sh calls process_log.py  
+	process_log.py calls one of :  
+		Feature_1.py  
+		Feature_2.py  
+		Feature_3.py  
+		Feature_4.py  
+		or All  
+Pressing 6 Terminates the process !  
+--------------------------------------------------------------------------//  
 
 Algos summary :-
  
