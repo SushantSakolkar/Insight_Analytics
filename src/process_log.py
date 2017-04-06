@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/python
 import os.path
 import dateutil.parser
@@ -69,7 +68,3 @@ def run_analytics() :
 		choice= input("Bad Choice, please select a number between 1 to 6 : ")
 
 run_analytics()
-=======
-// your Python code to implement the features could be placed here
-// note that you may use any language, there is no preference towards Python
->>>>>>> 895647251898568218afa71b75b79a45800cd456
