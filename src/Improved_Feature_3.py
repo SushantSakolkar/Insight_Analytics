@@ -27,7 +27,6 @@ def feature_3():
 	qMemberCount = 0
 	firstRecord = 0
 	startTime =' '
-	startTT = ' '
 	ttCount = 0
 	timeWindow = ' '
 
@@ -83,7 +82,7 @@ def feature_3():
 					# loop till the timeslot such that, the slot and current time are within 1 hour window
 					while timeWindow < currentTimestamp :
 
-
+						# To make sure heap element do not exceed 10
 						if heapCount < 10 :
 							heapq.heappush(topTenSlotHeap, (qMemberCount,qStart))
 							heapCount = heapCount + 1
@@ -92,18 +91,20 @@ def feature_3():
 							if topTenSlotHeap[0][0] < qMemberCount :
 								heapq.heappushpop(topTenSlotHeap, (qMemberCount,qStart))
 
+						# if Timeslot record present in log, remove from queue and reduce its count
 						if not q.empty() :
 							if q.queue[0][0] == qStart :
 								key = q.get()
 								qMemberCount = qMemberCount- int(key[1])
 						
+						# update looping conditions
 						qStart = qStart + timedelta(seconds =1)
 						timeWindow = qStart + timedelta(hours =1)						
 
-					startTime = currentTimestamp
+					# setting new element as new member of queue
+					startTime = currentTimestamp 
 					ttCount = 1
-					# since new slot is within the one hour range of 1st slot in  queue add it to queue
-						
+				
 
 	logFile.close()
 
@@ -111,7 +112,6 @@ def feature_3():
 	q.put((startTime,ttCount))
 	qMemberCount = qMemberCount + ttCount
 
-	
 	topTenSlotDict = {}
 	while topTenSlotHeap :
 		element = heapq.heappop(topTenSlotHeap)
@@ -132,5 +132,4 @@ def feature_3():
 	sys.stdout = oldstdout
 	print "\n--- Feature 3 took %s seconds --------" % (time.time() - start_time)
 	print   "--- Output Stored in hours.txt !!--- \n"
-
 
