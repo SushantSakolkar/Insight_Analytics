@@ -132,4 +132,5 @@ def feature_3():
 	sys.stdout = oldstdout
 	print "\n--- Feature 3 took %s seconds --------" % (time.time() - start_time)
 	print   "--- Output Stored in hours.txt !!--- \n"
+	
 
